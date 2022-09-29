@@ -10,7 +10,7 @@ to deploy run `anchor deploy` \
 \
 Don't forget to update the IDL file on the web app: 
 ```
-anchor idl upgade -f target/idl/myepicproject.json `solana address -k target/deploy/myepicproject-keypair.json`
+anchor idl upgrade -f target/idl/myepicproject.json QGwSEkdoSWSHBRn5eA31miyfQ5wPXGi9L63pcX73QcK -k target/deploy/myepicproject-keypair.json`
 ```
 
 
