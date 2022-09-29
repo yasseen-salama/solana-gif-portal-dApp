@@ -8,9 +8,9 @@ to run the test on `devnet` run `anchor test` on `tests/myepicproject.js`
 ## Deploy
 to deploy run `anchor deploy` \
 \
-Don't forget to update the IDL file on the web app: 
+Don't forget to upload the new IDL file to Solana: 
 ```
-anchor idl upgrade -f target/idl/myepicproject.json QGwSEkdoSWSHBRn5eA31miyfQ5wPXGi9L63pcX73QcK -k target/deploy/myepicproject-keypair.json`
+anchor idl upgrade QGwSEkdoSWSHBRn5eA31miyfQ5wPXGi9L63pcX73QcK -f target/idl/myepicproject.json
 ```
 
 
