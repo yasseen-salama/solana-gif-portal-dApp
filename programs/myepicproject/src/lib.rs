@@ -5,6 +5,7 @@ declare_id!("QGwSEkdoSWSHBRn5eA31miyfQ5wPXGi9L63pcX73QcK");
 #[program]
 pub mod myepicproject {
   use super::*;
+  
   pub fn start_stuff_off(ctx: Context<StartStuffOff>) -> Result <()> {
     let base_account = &mut ctx.accounts.base_account;
     base_account.total_gifs = 0;
@@ -20,11 +21,24 @@ pub mod myepicproject {
     let item = ItemStruct {
       gif_link: gif_link.to_string(),
       user_address: *user.to_account_info().key,
+      likes: 0,
     };
 		
 	// Add it to the gif_list vector.
     base_account.gif_list.push(item);
     base_account.total_gifs += 1;
+    Ok(())
+  }
+
+  pub fn like_gif(ctx: Context<LikeGif>, gif_link: String) -> Result<()> {
+    let base_account = &mut ctx.accounts.base_account;
+    let user = &mut ctx.accounts.user;
+
+    for itemStruct in &mut base_account.gif_list {
+      if itemStruct.gif_link == gif_link {
+        itemStruct.likes+=1;
+      }
+    }
     Ok(())
   }
 }
@@ -47,11 +61,20 @@ pub struct AddGif<'info> {
   pub user: Signer<'info>,
 }
 
+#[derive(Accounts)]
+pub struct LikeGif<'info> {
+  #[account(mut)]
+  pub base_account: Account<'info, BaseAccount>,
+  #[account(mut)]
+  pub user: Signer<'info>,
+}
+
 // Create a custom struct for us to work with.
 #[derive(Debug, Clone, AnchorSerialize, AnchorDeserialize)]
 pub struct ItemStruct {
     pub gif_link: String,
     pub user_address: Pubkey,
+    pub likes: i32,  
 }
 
 #[account]
