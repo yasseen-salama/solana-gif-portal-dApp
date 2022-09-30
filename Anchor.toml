@@ -2,7 +2,7 @@
 seeds = false
 skip-lint = false
 [programs.devnet]
-myepicproject = "QGwSEkdoSWSHBRn5eA31miyfQ5wPXGi9L63pcX73QcK"
+myepicproject = "F8NjHsqvBW3jCisV265DY69v1EyDYN4dKUof4FJsHZyU"
 
 [registry]
 url = "https://api.apr.dev"
