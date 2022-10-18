@@ -38,6 +38,7 @@ pub mod myepicproject {
     for itemStruct in &mut base_account.gif_list {
       if itemStruct.gif_link == gif_link {
         itemStruct.likes+=1;
+        itemStruct.likers.push(*user.to_account_info().key);
       }
     }
     Ok(())
@@ -75,7 +76,8 @@ pub struct LikeGif<'info> {
 pub struct ItemStruct {
     pub gif_link: String,
     pub user_address: Pubkey,
-    pub likes: i32,  
+    pub likes: i32,
+    pub likers: Vec<String>,
 }
 
 #[account]
