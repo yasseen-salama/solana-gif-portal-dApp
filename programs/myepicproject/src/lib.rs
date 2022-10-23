@@ -23,6 +23,7 @@ pub mod myepicproject {
       gif_link: gif_link.to_string(),
       user_address: *user.to_account_info().key,
       likes: 0,
+      likers: Vec::new(), 
     };
 		
 	// Add it to the gif_list vector.
@@ -77,7 +78,7 @@ pub struct ItemStruct {
     pub gif_link: String,
     pub user_address: Pubkey,
     pub likes: i32,
-    pub likers: Vec<String>,
+    pub likers: Vec<Pubkey>,
 }
 
 #[account]
