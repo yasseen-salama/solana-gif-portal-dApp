@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("F8NjHsqvBW3jCisV265DY69v1EyDYN4dKUof4FJsHZyU");
+declare_id!("CWtpJ9ETHrbqMC4HYXcd782BNoQsibHRqdeKsukB3wzd");
 
 
 #[program]
@@ -23,6 +23,7 @@ pub mod myepicproject {
       gif_link: gif_link.to_string(),
       user_address: *user.to_account_info().key,
       likes: 0,
+      likers: Vec::new(), 
     };
 		
 	// Add it to the gif_list vector.
@@ -38,6 +39,7 @@ pub mod myepicproject {
     for itemStruct in &mut base_account.gif_list {
       if itemStruct.gif_link == gif_link {
         itemStruct.likes+=1;
+        itemStruct.likers.push(*user.to_account_info().key);
       }
     }
     Ok(())
@@ -75,7 +77,8 @@ pub struct LikeGif<'info> {
 pub struct ItemStruct {
     pub gif_link: String,
     pub user_address: Pubkey,
-    pub likes: i32,  
+    pub likes: i32,
+    pub likers: Vec<Pubkey>,
 }
 
 #[account]
