@@ -32,6 +32,19 @@ pub mod myepicproject {
     Ok(())
   }
 
+  pub fn unlike_gif(ctx: Context<UnikeGif>, gif_link: String) -> Result<()> {
+    let base_account = &mut ctx.accounts.base_account;
+    let user = &mut ctx.accounts.user;
+
+    for itemStruct in &mut base_account.gif_list {
+      if itemStruct.gif_link == gif_link {
+        itemStruct.likes-=1;
+        itemStruct.likers.retain(|&x| x != *user.to_account_info().key);
+      }
+    }
+    Ok(())
+  }
+
   pub fn like_gif(ctx: Context<LikeGif>, gif_link: String) -> Result<()> {
     let base_account = &mut ctx.accounts.base_account;
     let user = &mut ctx.accounts.user;
@@ -39,26 +52,11 @@ pub mod myepicproject {
     for itemStruct in &mut base_account.gif_list {
       if itemStruct.gif_link == gif_link {
         itemStruct.likes+=1;
-        itemStruct.likers.retain(|&x| x != *user.to_account_info().key);
-      }
-    }
-    Ok(())
-  }
-
-  pub fn unlike_gif(ctx: Context<LikeGif>, gif_link: String) -> Result<()> {
-    let base_account = &mut ctx.accounts.base_account;
-    let user = &mut ctx.accounts.user;
-
-    for itemStruct in &mut base_account.gif_list {
-      if itemStruct.gif_link == gif_link {
-        itemStruct.likes-=1;
         itemStruct.likers.push(*user.to_account_info().key);
       }
     }
     Ok(())
   }
-
-
 }
 
 #[derive(Accounts)]
@@ -81,6 +79,14 @@ pub struct AddGif<'info> {
 
 #[derive(Accounts)]
 pub struct LikeGif<'info> {
+  #[account(mut)]
+  pub base_account: Account<'info, BaseAccount>,
+  #[account(mut)]
+  pub user: Signer<'info>,
+}
+
+#[derive(Accounts)]
+pub struct UnikeGif<'info> {
   #[account(mut)]
   pub base_account: Account<'info, BaseAccount>,
   #[account(mut)]
